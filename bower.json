@@ -1,0 +1,19 @@
+{
+  "name": "threejs-test",
+  "version": "0.0.0",
+  "authors": [
+    "Tee Jia Hen <wizztjh@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "threejs": "*"
+  },
+  "private": true
+}
