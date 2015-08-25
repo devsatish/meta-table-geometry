@@ -29,61 +29,110 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
 
   var tsurface_thickness_half = tsurfaceThickness / 2;
 
-  // // tsurface
-  // // tsurface bottom
-  // buildPlane(
-  //     new THREE.Vector3(-width/2, height/2 - tsurface_thickness_half, -depth/2)
-  //   , new THREE.Vector3( width/2, height/2 - tsurface_thickness_half, -depth/2)
-  //   , new THREE.Vector3( width/2, height/2 - tsurface_thickness_half,  depth/2)
-  //   , new THREE.Vector3(-width/2, height/2 - tsurface_thickness_half,  depth/2)
-  // );
-  //
-  // // tsurface top
-  // buildPlane(
-  //     new THREE.Vector3(-width/2, height/2 + tsurface_thickness_half, -depth/2)
-  //   , new THREE.Vector3( width/2, height/2 + tsurface_thickness_half, -depth/2)
-  //   , new THREE.Vector3( width/2, height/2 + tsurface_thickness_half,  depth/2)
-  //   , new THREE.Vector3(-width/2, height/2 + tsurface_thickness_half,  depth/2)
-  // );
-  //
 
-  // // tbottom left, right
-  // buildPlane(
-  //     new THREE.Vector3(-width/2 + tbottomPadding, -height/2, -depth/2)
-  //   , new THREE.Vector3(-width/2 + tbottomPadding, -height/2,  depth/2)
-  //   , new THREE.Vector3(-width/2 + tbottomPadding,  height/2 - tsurface_thickness_half,  depth/2)
-  //   , new THREE.Vector3(-width/2 + tbottomPadding,  height/2 - tsurface_thickness_half, -depth/2)
-  // );
-  //
-  // //tbottom left, left
-  // buildPlane(
-  //     new THREE.Vector3(-width/2 + tbottomPadding + tbottomThickness, -height/2, -depth/2)
-  //   , new THREE.Vector3(-width/2 + tbottomPadding + tbottomThickness, -height/2,  depth/2)
-  //   , new THREE.Vector3(-width/2 + tbottomPadding + tbottomThickness,  height/2 - tsurface_thickness_half,  depth/2)
-  //   , new THREE.Vector3(-width/2 + tbottomPadding + tbottomThickness,  height/2 - tsurface_thickness_half, -depth/2)
-  // );
+  //tbottom front
+  // cube front left
+  buildCube({
+    width: tbottomThickness,
+    height: height - tsurfaceThickness,
+    depth: tbottomThickness
+  }, {
+    x: width/2 - tbottomThickness/2 - tbottomPadding,
+    y: tsurfaceThickness/2,
+    z: depth/2 - tbottomThickness/2 - tbottomPadding
+  })
 
-  // buildPlane( 'z', 'y', - 1, - 1, depth, height, width_half, 0 ); // px
-  // buildPlane( 'z', 'y',   1, - 1, depth, height, - width_half, 1 ); // nx
-  // buildPlane( 'x', 'z',   1,   1, width, depth, height_half, 2 ); // py
-  // buildPlane( 'x', 'z',   1, - 1, width, depth, - height_half, 3 ); // ny
-  // buildPlane( 'x', 'y',   1, - 1, width, height, depth_half, 4 ); // pz
-  // buildPlane( 'x', 'y', - 1, - 1, width, height, - depth_half, 5 ); // nz
+  // cube front middle
+  buildCube({
+    width: width - tbottomThickness*2 - tbottomPadding * 2,
+    height: height - tsurfaceThickness,
+    depth: tbottomThickness
+  }, {
+    x: 0,
+    y: tsurfaceThickness/2,
+    z: depth/2 - tbottomThickness/2 - tbottomPadding
+  })
+
+  // cube front right
+  buildCube({
+    width: tbottomThickness,
+    height: height - tsurfaceThickness,
+    depth: tbottomThickness
+  }, {
+    x: - (width/2 - tbottomThickness/2 - tbottomPadding),
+    y: tsurfaceThickness/2,
+    z: depth/2 - tbottomThickness/2 - tbottomPadding
+  })
+
+  // cube left middle
+  buildCube({
+    width: tbottomThickness,
+    height: height - tsurfaceThickness,
+    depth: depth - 2 * tbottomThickness - 2 * tbottomPadding
+  }, {
+    x: - (width/2 - tbottomThickness/2 - tbottomPadding),
+    y: tsurfaceThickness/2,
+    z: 0
+  })
+
+  // cube back right
+  buildCube({
+    width: tbottomThickness,
+    height: height - tsurfaceThickness,
+    depth: tbottomThickness
+  }, {
+    x: - (width/2 - tbottomThickness/2 - tbottomPadding),
+    y: tsurfaceThickness/2,
+    z: - (depth/2 - tbottomThickness/2 - tbottomPadding)
+  })
+
+  // cube back middle
+  buildCube({
+    width: width - tbottomThickness*2 - tbottomPadding * 2,
+    height: height - tsurfaceThickness,
+    depth: tbottomThickness
+  }, {
+    x: 0,
+    y: tsurfaceThickness/2,
+    z: - (depth/2 - tbottomThickness/2 - tbottomPadding)
+  })
+
+  // cube back left
+  buildCube({
+    width: tbottomThickness,
+    height: height - tsurfaceThickness,
+    depth: tbottomThickness
+  }, {
+    x: width/2 - tbottomThickness/2 - tbottomPadding,
+    y: tsurfaceThickness/2,
+    z: - ( depth/2 - tbottomThickness/2 - tbottomPadding )
+  })
+
+  // cube left middle
+  buildCube({
+    width: tbottomThickness,
+    height: height - tsurfaceThickness,
+    depth: depth - 2 * tbottomThickness - 2 * tbottomPadding
+  }, {
+    x: (width/2 - tbottomThickness/2 - tbottomPadding),
+    y: tsurfaceThickness/2,
+    z: 0
+  })
+  // buildCube({width: width - tbottomPadding*2, height: height, depth: tbottomThickness}, { x: 0, y: 0, z: depth/2 - tbottomThickness/2 - tbottomPadding })
+
+  //tbottom back
+  // buildCube({width: width - tbottomPadding*2, height: height, depth: tbottomThickness}, { x: 0, y: 0, z: -depth/2 + tbottomThickness/2 + tbottomPadding })
+
+  //tbottom right
+  // buildCube({width: tbottomThickness, height: height, depth: depth - tbottomPadding*2}, { x: -width/2 + tbottomThickness/2 + tbottomPadding , y: 0, z: 0 })
+
+  //tbottom left
+  // buildCube({width: tbottomThickness, height: height, depth: depth - tbottomPadding*2}, { x: width/2 - tbottomThickness/2 - tbottomPadding , y: 0, z: 0 })
+
+  this.mergeVertices();
 
   //tsurface
   buildCube({width: width, height: tsurfaceThickness, depth: depth}, { x: 0, y: height/2 + tsurfaceThickness/2, z: 0 })
-
-  //tbottom front
-  buildCube({width: width - tbottomPadding*2, height: height, depth: tbottomThickness}, { x: 0, y: 0, z: depth/2 - tbottomThickness/2 - tbottomPadding })
-
-  //tbottom back
-  buildCube({width: width - tbottomPadding*2, height: height, depth: tbottomThickness}, { x: 0, y: 0, z: -depth/2 + tbottomThickness/2 + tbottomPadding })
-
-  //tbottom right
-  buildCube({width: tbottomThickness, height: height, depth: depth - tbottomPadding*2}, { x: -width/2 + tbottomThickness/2 + tbottomPadding , y: 0, z: 0 })
-
-  //tbottom left
-  buildCube({width: tbottomThickness, height: height, depth: depth - tbottomPadding*2}, { x: width/2 - tbottomThickness/2 - tbottomPadding , y: 0, z: 0 })
 
   function buildCube(dimension, pos) {
     var widthHalf = dimension.width/2;
@@ -151,7 +200,6 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
     scope.faces.push( new THREE.Face3( offset, offset +3, offset + 2 ) )
   }
 
-  this.mergeVertices();
 
 };
 
