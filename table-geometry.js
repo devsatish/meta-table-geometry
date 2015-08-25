@@ -72,8 +72,18 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
 
   //tsurface
   buildCube({width: width, height: tsurfaceThickness, depth: depth}, { x: 0, y: height/2 + tsurfaceThickness/2, z: 0 })
+
   //tbottom front
-  buildCube({width: width, height: height, depth: tsurfaceThickness}, { x: 0, y: 0, z: 0 })
+  buildCube({width: width - tbottomPadding*2, height: height, depth: tbottomThickness}, { x: 0, y: 0, z: depth/2 - tbottomThickness/2 - tbottomPadding })
+
+  //tbottom back
+  buildCube({width: width - tbottomPadding*2, height: height, depth: tbottomThickness}, { x: 0, y: 0, z: -depth/2 + tbottomThickness/2 + tbottomPadding })
+
+  //tbottom right
+  buildCube({width: tbottomThickness, height: height, depth: depth - tbottomPadding*2}, { x: -width/2 + tbottomThickness/2 + tbottomPadding , y: 0, z: 0 })
+
+  //tbottom left
+  buildCube({width: tbottomThickness, height: height, depth: depth - tbottomPadding*2}, { x: width/2 - tbottomThickness/2 - tbottomPadding , y: 0, z: 0 })
 
   function buildCube(dimension, pos) {
     var widthHalf = dimension.width/2;
@@ -129,6 +139,7 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
       , new THREE.Vector3(-widthHalf + pos.x,  heightHalf + pos.y, depthHalf + pos.z)
     );
   }
+
   function buildPlane(verticeA, verticeB, verticeC, verticeD){
     var offset = scope.vertices.length;
 
@@ -138,95 +149,6 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
     scope.vertices.push( verticeD );
     scope.faces.push( new THREE.Face3( offset +2 , offset +1, offset) )
     scope.faces.push( new THREE.Face3( offset, offset +3, offset + 2 ) )
-  }
-
-  function buildPlane2( u, v, udir, vdir, width, height, depth, materialIndex, position ) {
-
-    var position = position || {x:0, y:0, z:0};
-    var w, ix, iy,
-        gridX = scope.widthSegments,
-        gridY = scope.heightSegments,
-        width_half = width / 2,
-        height_half = height / 2,
-        offset = scope.vertices.length;
-
-    if ( ( u === 'x' && v === 'y' ) || ( u === 'y' && v === 'x' ) ) {
-
-      w = 'z';
-
-    } else if ( ( u === 'x' && v === 'z' ) || ( u === 'z' && v === 'x' ) ) {
-
-      w = 'y';
-      gridY = scope.depthSegments;
-
-    } else if ( ( u === 'z' && v === 'y' ) || ( u === 'y' && v === 'z' ) ) {
-
-      w = 'x';
-      gridX = scope.depthSegments;
-
-    }
-
-    var gridX1 = gridX + 1,
-      gridY1 = gridY + 1,
-      segment_width = width / gridX,
-      segment_height = height / gridY,
-      normal = new THREE.Vector3();
-
-    normal[ w ] = depth > 0 ? 1 : - 1;
-
-    for ( iy = 0; iy < gridY1; iy ++ ) {
-
-      for ( ix = 0; ix < gridX1; ix ++ ) {
-
-        var vector = new THREE.Vector3();
-        vector[ u ] = ( ix * segment_width - width_half ) * udir;
-        vector[ v ] = ( iy * segment_height - height_half ) * vdir;
-        vector[ w ] = depth;
-
-        vector['x'] += position.x;
-        vector['y'] += position.y;
-        vector['z'] += position.z;
-
-        scope.vertices.push( vector );
-
-      }
-
-    }
-
-    for ( iy = 0; iy < gridY; iy ++ ) {
-
-      for ( ix = 0; ix < gridX; ix ++ ) {
-
-        var a = ix + gridX1 * iy;
-        var b = ix + gridX1 * ( iy + 1 );
-        var c = ( ix + 1 ) + gridX1 * ( iy + 1 );
-        var d = ( ix + 1 ) + gridX1 * iy;
-
-        var uva = new THREE.Vector2( ix / gridX, 1 - iy / gridY );
-        var uvb = new THREE.Vector2( ix / gridX, 1 - ( iy + 1 ) / gridY );
-        var uvc = new THREE.Vector2( ( ix + 1 ) / gridX, 1 - ( iy + 1 ) / gridY );
-        var uvd = new THREE.Vector2( ( ix + 1 ) / gridX, 1 - iy / gridY );
-
-        var face = new THREE.Face3( a + offset, b + offset, d + offset );
-        face.normal.copy( normal );
-        face.vertexNormals.push( normal.clone(), normal.clone(), normal.clone() );
-        face.materialIndex = materialIndex;
-
-        scope.faces.push( face );
-        scope.faceVertexUvs[ 0 ].push( [ uva, uvb, uvd ] );
-
-        face = new THREE.Face3( b + offset, c + offset, d + offset );
-        face.normal.copy( normal );
-        face.vertexNormals.push( normal.clone(), normal.clone(), normal.clone() );
-        face.materialIndex = materialIndex;
-
-        scope.faces.push( face );
-        scope.faceVertexUvs[ 0 ].push( [ uvb.clone(), uvc, uvd.clone() ] );
-
-      }
-
-    }
-
   }
 
   this.mergeVertices();
