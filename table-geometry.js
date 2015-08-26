@@ -35,13 +35,10 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
   tbottomDimensionAndPositions.forEach(function(dimensionAndPosition){
     buildCube(dimensionAndPosition.dimension, dimensionAndPosition.position)
   });
-  console.log('vertices before merge', this.vertices.length)
   this.mergeVertices();
-  console.log('vertices after merge', this.vertices.length)
 
   //tsurface
   buildCube(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position)
-  console.log('vertices after tsurface', this.vertices.length)
 
   this.computeFaceNormals();
   this.computeVertexNormals();
@@ -78,10 +75,6 @@ THREE.TableGeometry.prototype.update = function( width, height, depth, tsurfaceT
   var mergedVertices = this.mergeAndReturnVertices(newVertices);
 
   mergedVertices = mergedVertices.concat.apply(mergedVertices, this.getCubeVertices(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position));
-
-  console.log('newVertices', newVertices.length)
-  console.log('mergedVertices', mergedVertices.length)
-  console.log('this vertices', this.vertices.length)
 
   this.vertices.forEach(function(vertex, i){
     vertex.x = mergedVertices[i].x;
@@ -141,17 +134,17 @@ THREE.TableGeometry.prototype.getCubeVertices = function(dimension, pos){
     ],
     //bottom plane
     [
-      new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y, - depthHalf + pos.z)
-    , new THREE.Vector3( widthHalf + pos.x, -heightHalf + pos.y, - depthHalf + pos.z)
+      new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y,   depthHalf + pos.z)
     , new THREE.Vector3( widthHalf + pos.x, -heightHalf + pos.y,   depthHalf + pos.z)
-    , new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y,   depthHalf + pos.z)
+    , new THREE.Vector3( widthHalf + pos.x, -heightHalf + pos.y, - depthHalf + pos.z)
+    , new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y, - depthHalf + pos.z)
     ],
     //left plane
     [
-      new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y, -depthHalf + pos.z)
-    , new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y,  depthHalf + pos.z)
+      new THREE.Vector3(-widthHalf + pos.x,  heightHalf + pos.y, -depthHalf + pos.z)
     , new THREE.Vector3(-widthHalf + pos.x,  heightHalf + pos.y,  depthHalf + pos.z)
-    , new THREE.Vector3(-widthHalf + pos.x,  heightHalf + pos.y, -depthHalf + pos.z)
+    , new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y,  depthHalf + pos.z)
+    , new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y, -depthHalf + pos.z)
     ],
     // right plane
     [
@@ -162,10 +155,10 @@ THREE.TableGeometry.prototype.getCubeVertices = function(dimension, pos){
     ],
     // front plane
     [
-        new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y,  depthHalf + pos.z)
-      , new THREE.Vector3( widthHalf + pos.x, -heightHalf + pos.y,  depthHalf + pos.z)
+        new THREE.Vector3(-widthHalf + pos.x,  heightHalf + pos.y,  depthHalf + pos.z)
       , new THREE.Vector3( widthHalf + pos.x,  heightHalf + pos.y,  depthHalf + pos.z)
-      , new THREE.Vector3(-widthHalf + pos.x,  heightHalf + pos.y,  depthHalf + pos.z)
+      , new THREE.Vector3( widthHalf + pos.x, -heightHalf + pos.y,  depthHalf + pos.z)
+      , new THREE.Vector3(-widthHalf + pos.x, -heightHalf + pos.y,  depthHalf + pos.z)
     ],
     // back plane
     [
