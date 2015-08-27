@@ -179,7 +179,7 @@ THREE.TableGeometry.prototype.getTsurfaceDimensionAndPosition = function( width,
     },
     position: {
       x: 0,
-      y: height/2 + tsurfaceThickness/2,
+      y: height/2 - tsurfaceThickness/2,
       z: 0
     }
   }
@@ -196,7 +196,7 @@ THREE.TableGeometry.prototype.getTbottomDimensionAndPositions = function( width,
       },
       position: {
         x: width/2 - tbottomThickness/2 - tbottomPadding,
-        y: tsurfaceThickness/2,
+        y: -tsurfaceThickness/2,
         z: depth/2 - tbottomThickness/2 - tbottomPadding
       }
     },
@@ -209,7 +209,7 @@ THREE.TableGeometry.prototype.getTbottomDimensionAndPositions = function( width,
       },
       position: {
         x: 0,
-        y: tsurfaceThickness/2,
+        y: -tsurfaceThickness/2,
         z: depth/2 - tbottomThickness/2 - tbottomPadding
       }
     },
@@ -222,7 +222,7 @@ THREE.TableGeometry.prototype.getTbottomDimensionAndPositions = function( width,
       },
       position: {
         x: - (width/2 - tbottomThickness/2 - tbottomPadding),
-        y: tsurfaceThickness/2,
+        y: - tsurfaceThickness/2,
         z: depth/2 - tbottomThickness/2 - tbottomPadding
       }
     },
@@ -235,7 +235,7 @@ THREE.TableGeometry.prototype.getTbottomDimensionAndPositions = function( width,
       },
       position: {
         x: - (width/2 - tbottomThickness/2 - tbottomPadding),
-        y: tsurfaceThickness/2,
+        y: - tsurfaceThickness/2,
         z: 0
       }
     },
@@ -248,7 +248,7 @@ THREE.TableGeometry.prototype.getTbottomDimensionAndPositions = function( width,
       },
       position: {
         x: - (width/2 - tbottomThickness/2 - tbottomPadding),
-        y: tsurfaceThickness/2,
+        y: - tsurfaceThickness/2,
         z: - (depth/2 - tbottomThickness/2 - tbottomPadding)
       }
     },
@@ -261,7 +261,7 @@ THREE.TableGeometry.prototype.getTbottomDimensionAndPositions = function( width,
       },
       position: {
         x: 0,
-        y: tsurfaceThickness/2,
+        y: - tsurfaceThickness/2,
         z: - (depth/2 - tbottomThickness/2 - tbottomPadding)
       }
     },
@@ -274,7 +274,7 @@ THREE.TableGeometry.prototype.getTbottomDimensionAndPositions = function( width,
       },
       position: {
         x: width/2 - tbottomThickness/2 - tbottomPadding,
-        y: tsurfaceThickness/2,
+        y: - tsurfaceThickness/2,
         z: - ( depth/2 - tbottomThickness/2 - tbottomPadding )
       }
     },
@@ -287,7 +287,7 @@ THREE.TableGeometry.prototype.getTbottomDimensionAndPositions = function( width,
       },
       position: {
         x: (width/2 - tbottomThickness/2 - tbottomPadding),
-        y: tsurfaceThickness/2,
+        y: - tsurfaceThickness/2,
         z: 0
       }
     }
