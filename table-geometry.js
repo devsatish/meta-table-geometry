@@ -8,15 +8,14 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
     width: width,
     height: height,
     depth: depth,
-    widthSegments: 1,
-    heightSegments: 1,
-    depthSegments: 1,
+    tbottomThickness: tbottomThickness,
+    tsurfaceThickness: tsurfaceThickness,
     tbottomPadding: tbottomPadding
   };
 
-  this.widthSegments = 1;
-  this.heightSegments =  1;
-  this.depthSegments = 1;
+  this.width = width
+  this.height = height
+  this.depth = depth
   this.tsurfaceThickness = tsurfaceThickness || 0.1;
   this.tbottomThickness = tbottomThickness || 0.1;
   this.tbottomPadding = tbottomPadding || 0.0;
@@ -64,6 +63,13 @@ THREE.TableGeometry.prototype = Object.create( THREE.Geometry.prototype );
 THREE.TableGeometry.prototype.constructor = THREE.TableGeometry;
 
 THREE.TableGeometry.prototype.update = function( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPadding ){
+  this.width = width
+  this.height = height
+  this.depth = depth
+  this.tsurfaceThickness = tsurfaceThickness || 0.1;
+  this.tbottomThickness = tbottomThickness || 0.1;
+  this.tbottomPadding = tbottomPadding || 0.0;
+
   var scope = this;
   var tbottomDimensionAndPositions = this.getTbottomDimensionAndPositions( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPadding );
   var tsurfaceDimensionAndPosition = this.getTsurfaceDimensionAndPosition( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPadding );
