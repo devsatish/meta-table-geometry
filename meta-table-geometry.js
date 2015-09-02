@@ -20,7 +20,7 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
   this.tbottomThickness = tbottomThickness || 0.1;
   this.tbottomPadding = tbottomPadding || 0.0;
 
-  var scope = this;
+  var scope = this, materialIndex = 0;;
 
   var width_half = width / 2;
   var height_half = height / 2;
@@ -33,29 +33,36 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
 
   tbottomDimensionAndPositions.forEach(function(dimensionAndPosition){
     buildCube(dimensionAndPosition.dimension, dimensionAndPosition.position)
+    materialIndex++;
   });
   this.mergeVertices();
 
   //tsurface
-  buildCube(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position)
+  buildCube(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position, materialIndex)
 
   this.computeFaceNormals();
   this.computeVertexNormals();
 
-  function buildCube(dimension, pos) {
+  function buildCube(dimension, pos, materialIndex) {
     scope.getCubeVertices(dimension, pos).forEach(function(planeVertices){
-      buildPlane.apply(scope, planeVertices)
+      planeVertices.push(materialIndex);
+      buildPlane.apply(scope, planeVertices);
     })
   }
 
-  function buildPlane(verticeA, verticeB, verticeC, verticeD){
+  function buildPlane(verticeA, verticeB, verticeC, verticeD, materialIndex){
     var offset = scope.vertices.length;
     scope.vertices.push( verticeA );
     scope.vertices.push( verticeB );
     scope.vertices.push( verticeC );
     scope.vertices.push( verticeD );
-    scope.faces.push( new THREE.Face3( offset +2 , offset +1, offset) )
-    scope.faces.push( new THREE.Face3( offset, offset +3, offset + 2 ) )
+    var face1 = new THREE.Face3( offset +2 , offset +1, offset );
+    var face2 = new THREE.Face3( offset, offset +3, offset + 2 );
+    face1.materialIndex = materialIndex;
+    face2.materialIndex = materialIndex;
+
+    scope.faces.push( face1 );
+    scope.faces.push( face2 );
   }
 };
 
@@ -299,4 +306,3 @@ THREE.TableGeometry.prototype.getTbottomDimensionAndPositions = function( width,
     }
   ]
 }
-
