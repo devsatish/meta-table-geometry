@@ -32,7 +32,7 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
   var tsurfaceDimensionAndPosition = scope.getTsurfaceDimensionAndPosition( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPadding );
 
   tbottomDimensionAndPositions.forEach(function(dimensionAndPosition){
-    buildCube(dimensionAndPosition.dimension, dimensionAndPosition.position)
+    buildCube(dimensionAndPosition.dimension, dimensionAndPosition.position, materialIndex)
     materialIndex++;
   });
   this.mergeVertices();
