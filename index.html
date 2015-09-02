@@ -18,7 +18,8 @@
       tsurfaceThickness: 100,
       tbottomThickness: 50,
 
-      tbottomPadding: 30
+      tbottomPaddingTop: 30,
+      tbottomPaddingBottom: 30
     };
     var gui = new dat.GUI();
 
@@ -27,16 +28,17 @@
     gui.add(table, 'height', 0, 1000).onFinishChange(onFinishChange);
     gui.add(table, 'depth', 0, 1000).onFinishChange(onFinishChange);
 
-    gui.add(table, 'tsurfaceThickness', -200, 200).onFinishChange(onFinishChange);
-    gui.add(table, 'tbottomThickness', -200, 200).onFinishChange(onFinishChange);
-    gui.add(table, 'tbottomPadding', -200, 200).onFinishChange(onFinishChange);
+    gui.add(table, 'tsurfaceThickness', 0, 500).onFinishChange(onFinishChange);
+    gui.add(table, 'tbottomThickness', 0, 200).onFinishChange(onFinishChange);
+    gui.add(table, 'tbottomPaddingTop', 0, 200).onFinishChange(onFinishChange);
+    gui.add(table, 'tbottomPaddingBottom', 0, 200).onFinishChange(onFinishChange);
 
 
     init();
     animate();
 
     function onFinishChange(){
-      geometry.update( table.width, table.height, table.depth, table.tsurfaceThickness, table.tbottomThickness, table.tbottomPadding );
+      geometry.update( table.width, table.height, table.depth, table.tsurfaceThickness, table.tbottomThickness, table.tbottomPaddingTop, table.tbottomPaddingBottom );
     }
     function init() {
 
@@ -55,7 +57,7 @@
         camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 10000 );
         camera.position.z = 1000;
 
-        geometry = new THREE.TableGeometry( table.width, table.height, table.depth, table.tsurfaceThickness, table.tbottomThickness, table.tbottomPadding );
+        geometry = new THREE.TableGeometry( table.width, table.height, table.depth, table.tsurfaceThickness, table.tbottomThickness, table.tbottomPaddingTop, table.tbottomPaddingBottom );
         material = new THREE.MeshPhongMaterial( {
           color: 0xff0000,
           wireframe: true
