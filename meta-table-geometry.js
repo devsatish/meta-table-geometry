@@ -85,19 +85,25 @@ THREE.TableGeometry.prototype.update = function( width, height, depth, tsurfaceT
   this.tsurfaceThickness = tsurfaceThickness || 0.1;
   this.tbottomThickness = tbottomThickness || 0.1;
   this.tbottomPaddingTop = tbottomPaddingTop || 0.0;
-  this.tbottomPaddingBottom = tbottomPaddingBottom || 0.0;
+  this.tbottomPaddingBottom = tbottomPaddingTop || 0.0;
 
   var scope = this;
   var tbottomDimensionAndPositions = this.getTbottomDimensionAndPositions( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPaddingTop );
   var tsurfaceDimensionAndPosition = this.getTsurfaceDimensionAndPosition( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPaddingTop );
 
-  var newVertices = tbottomDimensionAndPositions.reduce(function(previous, dimensionAndPosition){
+  var tbottomVertices = tbottomDimensionAndPositions.reduce(function(previous, dimensionAndPosition){
     return previous.concat.apply(previous, scope.getCubeVertices(dimensionAndPosition.dimension, dimensionAndPosition.position));
   }, []);
 
-  newVertices = newVertices.concat.apply(newVertices, this.getCubeVertices(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position));
 
-  var mergedVertices = this.mergeAndReturnVertices(newVertices);
+  var mergedTbottomVertices = this.mergeAndReturnVertices(tbottomVertices);
+
+  var tsurfaceVertices = this.getCubeVertices(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position);
+  var tsurfaceVertices = [].concat.apply([], tsurfaceVertices)
+  var mergedTsurfaceVertices = this.mergeAndReturnVertices(tsurfaceVertices);
+
+  var mergedVertices = mergedTbottomVertices.concat(mergedTsurfaceVertices)
+
   var diff = tbottomPaddingTop - tbottomPaddingBottom
 
   // Front Right
