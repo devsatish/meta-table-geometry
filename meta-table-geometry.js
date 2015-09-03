@@ -30,17 +30,20 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
 
   var tsurface_thickness_half = tsurfaceThickness / 2;
 
-  var tbottomDimensionAndPositions = scope.getTbottomDimensionAndPositions( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPaddingTop );
-  var tsurfaceDimensionAndPosition = scope.getTsurfaceDimensionAndPosition( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPaddingTop );
+  var tbottomDimensionAndPositions = scope.getTbottomDimensionAndPositions( 1, 1, 1, 0.1, 0.1, 0.1 );
+  var tsurfaceDimensionAndPosition = scope.getTsurfaceDimensionAndPosition( 1, 1, 1, 0.1, 0.1, 0.1 );
 
   tbottomDimensionAndPositions.forEach(function(dimensionAndPosition){
     buildCube(dimensionAndPosition.dimension, dimensionAndPosition.position, materialIndex)
     materialIndex++;
   });
-  this.mergeVertices();
 
   //tsurface
-  buildCube(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position, materialIndex)
+  buildCube(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position, materialIndex);
+
+  this.mergeVertices();
+
+  this.update( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPaddingTop, tbottomPaddingBottom);
 
   this.computeFaceNormals();
   this.computeVertexNormals();
@@ -71,7 +74,11 @@ THREE.TableGeometry = function ( width, height, depth, tsurfaceThickness, tbotto
 THREE.TableGeometry.prototype = Object.create( THREE.Geometry.prototype );
 THREE.TableGeometry.prototype.constructor = THREE.TableGeometry;
 
-THREE.TableGeometry.prototype.update = function( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPaddingTop ){
+THREE.TableGeometry.prototype.vertexNames = {
+
+};
+
+THREE.TableGeometry.prototype.update = function( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPaddingTop, tbottomPaddingBottom){
   this.width = width
   this.height = height
   this.depth = depth
@@ -87,9 +94,63 @@ THREE.TableGeometry.prototype.update = function( width, height, depth, tsurfaceT
     return previous.concat.apply(previous, scope.getCubeVertices(dimensionAndPosition.dimension, dimensionAndPosition.position));
   }, []);
 
-  var mergedVertices = this.mergeAndReturnVertices(newVertices);
+  newVertices = newVertices.concat.apply(newVertices, this.getCubeVertices(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position));
 
-  mergedVertices = mergedVertices.concat.apply(mergedVertices, this.getCubeVertices(tsurfaceDimensionAndPosition.dimension, tsurfaceDimensionAndPosition.position));
+  var mergedVertices = this.mergeAndReturnVertices(newVertices);
+  var diff = tbottomPaddingTop - tbottomPaddingBottom
+
+  // Front Right
+  mergedVertices[4].x = mergedVertices[4].x + diff
+  mergedVertices[4].z = mergedVertices[4].z + diff
+
+  mergedVertices[5].x = mergedVertices[5].x + diff
+  mergedVertices[5].z = mergedVertices[5].z + diff
+
+  mergedVertices[6].x = mergedVertices[6].x + diff
+  mergedVertices[6].z = mergedVertices[6].z + diff
+
+  mergedVertices[7].x = mergedVertices[7].x + diff
+  mergedVertices[7].z = mergedVertices[7].z + diff
+
+
+  // Front left
+  mergedVertices[10].x = mergedVertices[10].x - diff
+  mergedVertices[10].z = mergedVertices[10].z + diff
+
+  mergedVertices[11].x = mergedVertices[11].x - diff
+  mergedVertices[11].z = mergedVertices[11].z + diff
+
+  mergedVertices[14].x = mergedVertices[14].x - diff
+  mergedVertices[14].z = mergedVertices[14].z + diff
+
+  mergedVertices[15].x = mergedVertices[15].x - diff
+  mergedVertices[15].z = mergedVertices[15].z + diff
+
+  // back left
+  mergedVertices[18].x = mergedVertices[18].x - diff
+  mergedVertices[18].z = mergedVertices[18].z - diff
+
+  mergedVertices[19].x = mergedVertices[19].x - diff
+  mergedVertices[19].z = mergedVertices[19].z - diff
+
+  mergedVertices[22].x = mergedVertices[22].x - diff
+  mergedVertices[22].z = mergedVertices[22].z - diff
+
+  mergedVertices[23].x = mergedVertices[23].x - diff
+  mergedVertices[23].z = mergedVertices[23].z - diff
+
+  // back right
+  mergedVertices[26].x = mergedVertices[26].x + diff
+  mergedVertices[26].z = mergedVertices[26].z - diff
+
+  mergedVertices[27].x = mergedVertices[27].x + diff
+  mergedVertices[27].z = mergedVertices[27].z - diff
+
+  mergedVertices[30].x = mergedVertices[30].x + diff
+  mergedVertices[30].z = mergedVertices[30].z - diff
+
+  mergedVertices[31].x = mergedVertices[31].x + diff
+  mergedVertices[31].z = mergedVertices[31].z - diff
 
   this.vertices.forEach(function(vertex, i){
     vertex.x = mergedVertices[i].x;
