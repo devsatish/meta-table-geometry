@@ -85,7 +85,7 @@ THREE.TableGeometry.prototype.update = function( width, height, depth, tsurfaceT
   this.tsurfaceThickness = tsurfaceThickness || 0.1;
   this.tbottomThickness = tbottomThickness || 0.1;
   this.tbottomPaddingTop = tbottomPaddingTop || 0.0;
-  this.tbottomPaddingBottom = tbottomPaddingTop || 0.0;
+  this.tbottomPaddingBottom = tbottomPaddingBottom || 0.0;
 
   var scope = this;
   var tbottomDimensionAndPositions = this.getTbottomDimensionAndPositions( width, height, depth, tsurfaceThickness, tbottomThickness, tbottomPaddingTop );
